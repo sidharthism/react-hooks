@@ -32,10 +32,11 @@ async function getQuoteByCategory(category) {
 
 export default function UseEffectDemo() {
     const [category, setCategory] = useState(QUOTE_API_CONFIG.getDefaultCategory());
-    const [quote, setQuote] = useState({
+    const initialQuoteState = {
         quote: "Quote loading...",
         author: ";)"
-    });
+    };
+    const [quote, setQuote] = useState(initialQuoteState);
 
     useEffect(() => {
         console.log("Print for every render!");
@@ -47,12 +48,14 @@ export default function UseEffectDemo() {
     }, [])
 
     useEffect(() => {
+        setQuote(initialQuoteState)
         getQuoteByCategory(category).then(quote => setQuote(quote)).catch(q => setQuote(q));
     }, [category])
 
     // onClick handlers
     const handleGetQuote = (e) => {
         e.preventDefault();
+        setQuote(initialQuoteState)
         getQuoteByCategory(category).then(quote => setQuote(quote)).catch(q => setQuote(q))
     }
 
